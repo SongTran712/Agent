@@ -229,7 +229,7 @@ class ImageTool(Toolkit):
 
 def get_image_agent():
     agent = Agent(
-        model=Ollama(id="qwen3:4b"),
+        model=Ollama(id="qwen3:1.7b"),
         tools=[ImageTool()],
         instructions=dedent("""\
         You are an image analysis assistant with expertise in identifying leaf-related features and detecting potential diseases when present. Use the image provided by the tool to guide your analysis.

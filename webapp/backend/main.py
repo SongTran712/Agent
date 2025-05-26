@@ -70,7 +70,9 @@ async def data_stream(llm, content):
                 # print(response)
                 response_content = response.content
                 if response_content is not None:
-                    yield re.sub(r'<think>.*?</think>', '', response_content, flags=re.DOTALL).strip()
+                    print(response_content)
+                    print('\n')
+                    yield response_content
     finally:
         print("Stream success")
 
@@ -96,7 +98,7 @@ def get_most_similarity(image):
 
 @app.post("/api/chat")
 async def ask(req: Item):
-    csv_agent =  await get_csv_agent()
+    csv_agent =  get_csv_agent()
     generator = data_stream(csv_agent, req.content)
     return StreamingResponse(generator, media_type="text/event-stream"
                         , headers={"cache-Control": "no-cache", "cf-cache-status": "DYNAMIC",

@@ -378,9 +378,9 @@ class CSVCustomTools(Toolkit):
             logger.error(f"Error updating quantity: {e}")
             return f"Error updating quantity: {e}"
 
-async def get_csv_agent() -> Agent:
+def get_csv_agent() -> Agent:
     agentic_rag_agent: Agent = Agent(
-        model=Ollama(id="qwen3:4b"),
+        model=Ollama(id="gemma3:1.7b"),
          instructions = dedent("""\
     You are a CSV Assistant.
 
@@ -407,7 +407,7 @@ async def get_csv_agent() -> Agent:
     
     
 """),
-        tools=[CSVCustomTools(csvs=["/home/veronrd/chatbot/excel/data/khohang.csv"])],
+        tools=[CSVCustomTools(csvs=["../../excel/data/khohang.csv"])],
         markdown=True,
     )
     return agentic_rag_agent

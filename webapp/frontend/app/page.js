@@ -72,7 +72,7 @@ export default function Home() {
     setLoading(true); // Start loading indicator
 
     try {
-      const response = await fetch("http://192.168.30.172:8000/api/chat", {
+      const response = await fetch("http://localhost:8000/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content: input, user: "testuser", sessionID: sessionID }),
