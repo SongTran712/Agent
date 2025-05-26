@@ -1,4 +1,15 @@
 ## AI Agent Basic Workflow
+
+<b>System Architecture:</b>
+
+<i>CSV Agent:</i>
+
+![alt text](figure/image-11.png)
+
+<i>Image Agent:</i>
+
+![alt text](figure/image-12.png)
+
 <b>Run Repo:</b>
 
 Tải Ollama 
@@ -27,8 +38,31 @@ Add .env file for mail receive and send:
 
 ![alt text](figure/image-1.png)
 
+First of all, this is the agent just for CSV. So if you ask about another think but the CSV, it won't work
+
+![alt text](figure/image-5.png)
+
+<i>Update quantity:</i>
+First the quantity of keyboard is 50
+
+![alt text](figure/image-6.png)
+
+After the request, 
+
+![alt text](figure/image-7.png)
+
+Keyboard quantity after that is updated
+
+![alt text](figure/image-8.png)
+
+<i>When the quantity change reach min limit or max limit, it will response in chatbot to user and send warning mail</i>
 
 
+![alt text](figure/image-9.png)
+
+![alt text](figure/image-10.png)
+
+Link Demo: https://drive.google.com/file/d/1lm22PlJox80Sxp8WqX-MrPBq0XLm8JzL/view?usp=sharing
 
 <b>Leaf Disease Detection Demo:</b>
 
