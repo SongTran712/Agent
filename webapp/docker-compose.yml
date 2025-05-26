@@ -1,0 +1,146 @@
+version: "3"
+
+services:
+  # zookeeper:
+  #   image: confluentinc/cp-zookeeper:6.2.0
+  #   container_name: zookeeper
+  #   ports:
+  #     - "2181:2181"
+  #   environment:
+  #     ZOOKEEPER_CLIENT_PORT: 2181
+  #     ZOOKEEPER_TICK_TIME: 2000
+
+  # kafka:
+  #   image: confluentinc/cp-kafka:6.2.0
+  #   container_name: kafka
+  #   restart: always
+  #   depends_on:
+  #     - zookeeper
+  #   ports:
+  #     - "9092:9092"
+  #     - "9101:9101"
+  #   environment:
+  #     KAFKA_BROKER_ID: 1
+  #     KAFKA_ADVERTISED_HOST_NAME: kafka:9092
+  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+  #     KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+  #     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
+  #     KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+  #     # KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  #     # KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+  #     # KAFKA_CONFLUENT_LICENSE_TOPIC_REPLICATION_FACTOR: 1
+  #     # KAFKA_CONFLUENT_BALANCER_TOPIC_REPLICATION_FACTOR: 1
+  #     # KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+  #     # KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+  #     # KAFKA_LOG_RETENTION_HOURS: "168"  # Retain messages for 7 days (in hours)
+  #     # KAFKA_LOG_RETENTION_BYTES: "1073741824"  # Retain 1GB of data
+  #     # KAFKA_LOG_SEGMENT_BYTES: "536870912"  # Limit segment size to 512MB
+  #     # KAFKA_LOG_CLEANER_ENABLE: "true"
+
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   container_name: frontend
+  #   # ports:
+  #   #   - 3000:3000
+  #   # depends_on:
+  #   #   - backend
+  #   restart: always
+    
+  # backend:
+  #   build:
+  #     context: ./backend
+  #     dockerfile: Dockerfile
+  #   container_name: backend
+  #   restart: always
+  #   depends_on:
+  #     - ollama
+  #     - elasticsearch
+  #     # - kafka
+  #   volumes:
+  #     - ./backend:/app
+  #   command: uvicorn main:app --host 0.0.0.0 --port 8000  --workers 10
+
+  # consumer:
+  #   build:
+  #     context: ./consumer
+  #     dockerfile: Dockerfile
+  #   container_name: consumer
+  #   restart: always
+  #   depends_on:
+  #     - ollama
+  #     - backend
+  #     - kafka
+  #     - elasticsearch
+  #   volumes:
+  #     - ./consumer:/app
+
+  # nginx:
+  #   image: nginx:alpine
+  #   container_name: nginx
+  #   ports: 
+  #     - "80:80"
+  #   volumes:
+  #     - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+  #     - ./nginx/log:/var/log/nginx
+  #   depends_on:
+  #     - frontend
+  #     - backend
+  #   restart: always
+  # ollama:
+  #   build: 
+  #     context: ./ollama
+  #     dockerfile: Dockerfile
+  #   restart: always
+  #   volumes:
+  #     - ollama_data:/root/.ollama
+  #   ports:
+  #     - "11434:11434"
+  #   entrypoint: ["/bin/sh", "-c"]
+    
+  #   command:
+  #     - |
+  #       ollama pull llama3.2:1b
+  #       ollama serve
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.license.self_generated.type=trial
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
+    restart: always
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:7.4.0
+    restart: always
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200    # address of elasticsearch docker container which kibana will connect
+    ports:
+      - 5601:5601
+    depends_on:
+      - elasticsearch   
+  db:
+    hostname: db
+    image: ankane/pgvector
+    ports:
+     - 5555:5432
+    restart: always
+    environment:
+      - POSTGRES_DB=ai
+      - POSTGRES_USER=ai
+      - POSTGRES_PASSWORD=ai
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+     - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  ollama_data:  # Ensure this volume is declared properly
+  esdata:
+  elasticsearch-data:

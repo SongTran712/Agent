@@ -1,0 +1,37 @@
+# Exclude Python bytecode files
+__pycache__
+*.pyc
+*.pyo
+
+# Exclude virtual environments
+venv/
+env/
+
+# Exclude system files
+.DS_Store
+Thumbs.db
+dataset/
+# Exclude Git files and directories
+.git
+.gitignore
+result/
+uploads/
+# Exclude local environment configuration
+.env
+robo.py
+test.py
+database.py
+
+# Exclude logs
+*.log
+
+# Exclude build and temporary directories
+build/
+dist/
+*.egg-info
+*.swp
+
+# Exclude Docker-related files (optional, if you don't want Dockerfile itself)
+Dockerfile
+docker-compose.yml
+tensorrt_llm.py

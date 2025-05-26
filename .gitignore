@@ -1,0 +1,30 @@
+# Ignore Python backend files
+webapp/backend/__pycache__/
+webapp/backend/*.pyc
+webapp/backend/*.pyo
+webapp/backend/.env
+webapp/backend/.venv
+webapp/backend/venv/
+webapp/backend/env/
+webapp/backend/.pytest_cache/
+webapp/backend/.env
+# Ignore Next.js frontend files
+webapp/frontend/.next/
+webapp/frontend/node_modules/
+webapp/frontend/.env
+webapp/frontend/.env.local
+webapp/frontend/.env.production
+webapp/frontend/.env.development
+webapp/frontend/next.config.js
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore VSCode settings
+.vscode/
+
+# Ignore PyCharm settings
+.idea/
+
+# Ignore logs
+*.log
