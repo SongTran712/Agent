@@ -124,9 +124,10 @@ export default function Home() {
   );
 
   const chatList = [
-    { imgSrc: '/agent.avif', name: 'Agent', lastMsg: 'Last message preview', route: '/' },
+    { imgSrc: '/chatbot.webp', name: 'Chatbot', lastMsg: 'Last message preview', route: '/chat' },
+    { imgSrc: '/agent.avif', name: 'Agent', lastMsg: 'Last message preview', route: '/agent' },
     { imgSrc: '/vlm.jpg', name: 'VLMs', lastMsg: 'Last message preview', route: '/vlm' },
-  ];
+  ]
 
   useEffect(() => {
     if (bottomRef.current) {

@@ -18,10 +18,88 @@ from ImageAgent import get_image_agent, load_image
 folder_path = "/home/veronrd/chatbot/VLMs/images/input"
 input_image_path = "./la1.jpg"
 import re
+from agno.tools import Toolkit
+import json
+from elasticsearch import Elasticsearch
+from sentence_transformers import SentenceTransformer
+from typing import Optional
+from textwrap import dedent
+from agno.models.ollama import Ollama
+
+embed_model = SentenceTransformer('all-mpnet-base-v2')
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     print("Starting FastAPI application...")
     yield
+from agno.tools import tool
+@tool(
+    name="retrieve_tool",
+    description="Search Elasticsearch for relevant documents based on a user prompt.",
+)
+def retrieve_tool(prompt: str) -> Optional[str]:
+    es = Elasticsearch("http://localhost:9200")
+
+    max_candi = es.count(index="rag")["count"]
+    if max_candi == 0:
+        return None
+
+    try:
+        vector = embed_model.encode(prompt)
+    except Exception as e:
+        print(f"Embedding failed: {e}")
+        return None
+
+    query = {
+        "field": "SummaryVector",
+        "query_vector": vector,
+        "k": 2,
+        "num_candidates": max_candi,
+    }
+
+    try:
+        res = es.knn_search(index="rag", knn=query, source=["text"])
+    except Exception as e:
+        print(f"Elasticsearch query failed: {e}")
+        return None
+
+    results = []
+    for hit in res["hits"]["hits"]:
+        if hit["_score"] < 0.45:
+            continue
+        text = hit["_source"].get("text")
+        if isinstance(text, set):
+            raise TypeError(f"Set not serializable: {text}")
+        results.append({"body": text})
+
+    return json.dumps(results, indent=2) if results else None
+
+async def get_core_agent() -> Agent:
+    """Get an Agentic RAG Agent with Memory."""
+
+    agentic_rag_agent: Agent = Agent(
+        model=Ollama(id="qwen3:1.7b ", host="http://localhost:11434"),
+
+
+        description=[
+            "You are VERON, a helpful assistant. Your goal is to research and provide answers based on the available tools"
+        ],
+
+        instructions=dedent("""\
+            If the input is a greeting (like "hi", "hello", etc.), respond with a friendly greeting.
+
+            If the input is not a greeting:
+            1. Search Elasticsearch for relevant info using the retrieve_tool.
+            2. If info is found, use only that.
+            3. If not, inform the user and use your own knowledge to help.
+        """),
+
+        tools=[retrieve_tool],
+        # add_context=True,
+        markdown=True,
+    )
+    return agentic_rag_agent
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -96,10 +174,21 @@ def get_most_similarity(image):
     most_similar_image = image_files[most_similar_index]
     return most_similar_image, most_similar_image.replace("/home/veronrd/chatbot/VLMs/images/input", "/home/veronrd/chatbot/VLMs/images/label")
 
-@app.post("/api/chat")
+@app.post("/api/agent")
 async def ask(req: Item):
     csv_agent =  get_csv_agent()
     generator = data_stream(csv_agent, req.content)
+    return StreamingResponse(generator, media_type="text/event-stream"
+                        , headers={"cache-Control": "no-cache", "cf-cache-status": "DYNAMIC",
+                                   "x-content-type-options": "nosniff", "content-type":"text/event-stream"}
+                        )
+
+
+
+@app.post("/api/chat")
+async def ask(req: Item):
+    core_agent =  await get_core_agent()
+    generator = data_stream(core_agent, req.content)
     return StreamingResponse(generator, media_type="text/event-stream"
                         , headers={"cache-Control": "no-cache", "cf-cache-status": "DYNAMIC",
                                    "x-content-type-options": "nosniff", "content-type":"text/event-stream"}

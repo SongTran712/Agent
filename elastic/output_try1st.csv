@@ -1,0 +1,272 @@
+Type,Session,Content
+Text,Title 0. Begin,"Title: Arrive Technologies Inc.
+Title: Guidelines
+Title: ATVN
+Title: Verilog Coding Standards
+Abstract: This document describes the Verilog Programming Style to be used in the logic development. A Set of conventions is described covering various constructs of the language. These conventions are intended to provide a high level of uniformity in the code produced by different programmers thus achieving readability and maintainability.
+Title: Revision: 3.1
+Title: Last Updated: 03-Aug-06
+Title: Author:
+- AT ASIC Design Group
+This controlled document is the proprietary of Arrive Technologies Inc.. Any duplication, reproduction, or transmission to unauthorized parties is prohibited. Copyright © 2006
+Verilog Coding Standards ATVN
+Title: Document History
+Copyright © 2006. Arrive Technologies Inc. Internal Doc. Subject to Change
+Page i
+Title: Coruivs
+Verilog Coding Standards ATVN
+ATVN
+Title: Contents
+1.
+Abstract ....................................................................................................................................1
+2.
+Acronyms .................................................................................................................................1
+Related Documents..................................................................................................................1
+3.
+Requirements...........................................................................................................................1
+4.
+5.
+Revision Changes....................................................................................................................1
+6.
+Verilog Programming Conventions ........................................................................................1
+6.1. Layout Conventions................................................................................................................ 1
+6.1.1. Source File Layout .......................................................................................................... 1
+6.1.2. Testbench File Layout ..................................................................................................... 2
+6.1.3. Testcase File Layout ....................................................................................................... 3
+6.1.4. Function Layout............................................................................................................... 3
+6.1.5. Code Layout.................................................................................................................... 3
+Vertical Spacing ....................................................................................................... 3
+6.1.5.2. Horizontal Spacing ................................................................................................... 4
+Indentation ............................................................................................................... 4
+6.1.5.4. Comments................................................................................................................ 5
+6.2. Naming Conventions .............................................................................................................. 6
+6.2.1. Source, Testbench, and Testcase File Names................................................................ 6
+6.2.2. Reset Signal Name ......................................................................................................... 7
+6.2.3. Clock Tree Signal Name.................................................................................................. 7
+6.2.4. Constant Names.............................................................................................................. 7
+Input and Output Names ................................................................................................. 7
+6.2.6. Wire and Register Names ............................................................................................... 7
+6.2.7. Active Low Variable Names............................................................................................. 7
+6.3. Complex Conditionals............................................................................................................. 8
+6.4. RTL Mandatory....................................................................................................................... 8
+6.5. Project Hierarchy.................................................................................................................... 9
+6.6. Other Important Considerations.............................................................................................. 9
+7.
+7.
+About This Document..............................................................................................................9
+Title: Figures
+Copyright © 2006. Arrive Technologies Inc. Internal Doc. Subject to Change
+Page ii
+Verilog Coding Standards ATVN"
+Table,Title 0. Begin,"<table><tbody><tr><td colspan=""2"">Acronyms</td></tr><tr><td colspan=""2"">Related Documents.. ee</td></tr><tr><td colspan=""2"">Requirements... Re</td></tr><tr><td colspan=""2"">Revision Changes. ke</td></tr><tr><td colspan=""2"">Verilog Programming Conventions.</td></tr><tr><td colspan=""2"">.1. Layout Conventions Lok</td></tr><tr><td>6.1.1.</td><td>Source File Layout Lo</td></tr><tr><td>6.1.2.</td><td>Testbench File Layout .</td></tr><tr><td>6.1.3.</td><td>Testcase File Layout</td></tr><tr><td>6.1.4.</td><td>Function Layout..</td></tr><tr><td colspan=""2"">6.1.5. Code Layout...</td></tr><tr><td colspan=""2"">6.1.5.1. Vertical Spacing</td></tr><tr><td>6.1.5.2.</td><td>Horizontal Spacing .. wl</td></tr><tr><td>6.1.5.3.</td><td>Indentation .. wl</td></tr><tr><td>6.1.5.4.</td><td>Comments... we</td></tr><tr><td colspan=""2"">.2. Naming Conventions .</td></tr><tr><td>6.2.1.</td><td>Source, Testbench, and Testcase File Names.. .</td></tr><tr><td>6.2.2.</td><td>Reset Signal Name</td></tr><tr><td>6.2.3.</td><td>Clock Tree Signal Name.</td></tr><tr><td>6.2.4.</td><td>Constant Names</td></tr><tr><td>6.2.5.</td><td>Input and Output Names</td></tr><tr><td>6.2.6.</td><td>Wire and Register Names wel</td></tr><tr><td colspan=""2"">6.2.7. Active Low Variable Names 1</td></tr><tr><td colspan=""2"">.3. Complex Conditionals... é</td></tr><tr><td colspan=""2"">.4. RTL Mandatory é</td></tr><tr><td colspan=""2"">.5. Project Hierarchy. as</td></tr><tr><td colspan=""2"">.6. Other Important Considerations af</td></tr></tbody></table>"
+Table,Title 0. Begin,<table><thead><tr><th>Revision</th><th>Date</th><th>Description</th></tr></thead><tbody><tr><td>1.0</td><td>May 2001</td><td>Initial Version</td></tr><tr><td>2.0</td><td>Jan 2003</td><td>Changed for new RED-BLUE chips</td></tr><tr><td>3.0</td><td>July 2003</td><td>After a review on July-29-03</td></tr><tr><td>3.1</td><td>Aug 2006</td><td>New Template updated</td></tr></tbody></table>
+Table,Title 0. Begin,<table><tbody></tbody></table>
+Text,Title: 1. Abstract,"The purpose of this document is to define one style of programming in Verilog. All non-optional rules and recommendations provided in this document are followed when developing Arrive Technologies logic level. These rules and recommendations are intended to encourage higher quality code in terms of uniformity, readability, robustness, reliability and maintainability. It also allows programmers to work on code written by others with fewer overheads in adjusting to stylistic differences.
+"
+Text,Title: 2. Acronyms,"Empty section.
+"
+Text,Title: 3. Related Documents,"Empty section.
+"
+Text,Title: 4. Requirements,"Empty section.
+"
+Text,Title: 5. Revision Changes,
+Table,Title: 5. Revision Changes,"<table><thead><tr><th>evision</th><th></th><th>Changes</th></tr></thead><tbody><tr><td>3.1</td><td></td><td>New Template Updated</td></tr><tr><td rowspan=""7"">3.0</td><td>WNP</td><td>Changed source code header (6.1.1)</td></tr><tr><td></td><td>Changed the way to name inputs and outputs: removing prefix i for input, prefix o for output (6.2.3).</td></tr><tr><td></td><td>Changed the way to name wires and registers: removing prefix w for wire, prefix r for register (6.2.4).</td></tr><tr><td></td><td>Changed the way to name active low signal: adding suffix _ (underscore) for active low signal (6.2.5).</td></tr><tr><td>TR</td><td>Removed the Style 1 in Project Hierarchy section (6.5)</td></tr><tr><td></td><td>Changed directory TEST to RSIM in Project Hierarchy section (6.5)</td></tr><tr><td></td><td>Added RTL Mandatory section (6.4)</td></tr><tr><td rowspan=""8"">2.0</td><td></td><td>Added Revision Changes section (5.).</td></tr><tr><td></td><td>Changed source code file layout and header (6.1.1).</td></tr><tr><td></td><td>Changed the way to name inputs and outputs: adding prefix i for input, prefix o for output (6.2.3).</td></tr><tr><td></td><td>Changed the way to name wires and registers: adding prefix w for wire, prefix r for register (6.2.4).</td></tr><tr><td></td><td>Changed the way to name active low signal: adding suffix x for active low signal (6.2.5).</td></tr><tr><td></td><td>Added testcase files (6.1.3).</td></tr><tr><td>SPNOOTRWNPINDA</td><td>Added the Style 2 in Project Hierarchy section (6.4.2).</td></tr><tr><td></td><td>Minor corrections</td></tr></tbody></table>"
+Text,Title: 5. Revision Changes,"Title: Revision
+"
+Text,Title: 6.1.1. Source File Layout,"Every file containing Verilog source code, denoted by .v extension, must contain a standard file heading in the beginning followed by the module body (i.e. a set of functions). The file heading consists of the blocks described below. Note that blocks are separated by one or two blank lines.
+= Copyright: This consists of a single-line Verilog comment containing the appropriate copyright information.
+= Title: The title consists of a one-line Verilog comment indicating the file name followed by a short description. The name must be the same as the file name.
+= Description: This consists of a paragraph of Verilog comment (with a proper border as shown below) summarizing the purpose of the source file.
+= Author: This author consists of a one-line Verilog comment indicating author’s e-mail address.
+= Created: This consists of a one-line Verilog comment indicating the first day when source file was created.
+Copyright © 2006. Arrive Technologies Inc. Internal Doc. Subject to Change
+Page 1
+Title: Coruivs
+Verilog Coding Standards ATVN
+a
+= History: This consists of a one-line Verilog comment indicating the last day when source file have changed, by whom and why.
+have changed, by whom and why. The format of these blocks is shown in the following example: ////////////////////////////////////////////////////////////////////////////////<-80 chars // // Arrive Technologies // // Filename : ds_sm.v (Downstream Data Path State Machine) // Description : This module implements the downstream data path state machine // // Author : authorname@hostname.com.vn // Created On : Mon Jul 28 19:29:44 2002 // History (Date, Changed By) // Jul 31 2002, authorname, added framesyn. // Jul 30 2002, authorname, fixed downstream counter. // // ////////////////////////////////////////////////////////////////////////////////<-80 chars module ds_sm ( rst_, clk38, clk19, signal1, // connects to Module 1 signal2, signal3, signal7, // connects to Module 2, // synchronized with clk19 signal8 // connects to Module 3 ); ////////////////////////////////////////////////////////////////////////////////<-80 chars // Port declarations input rst_; // underscore suffix for active low signal input clk38; input clk19; input [6:0] signal1; output [12:0] signal2; input [7:0] signal3; input signal7; output signal8; ////////////////////////////////////////////////////////////////////////////////<-80 chars // Output declarations reg [12:0] signal2; ////////////////////////////////////////////////////////////////////////////////<-80 chars // Parameter declarations
+parameter PARA1 = 2’b11; // using uppercase for parameter names
+"
+Text,Title: 6.1.2. Testbench File Layout,"Testbench files, denoted by a .vt extension, must contain a standard file heading as Source File heading.
+Copyright © 2006. Arrive Technologies Inc. Internal Doc. Subject to Change
+Page 2
+Verilog Coding Standards ATVN
+"
+Text,Title: 6.1.3. Testcase File Layout,"Testcase files, denoted by a .vc extension, must contain a standard file heading as Source File heading.
+"
+Text,Title: 6.1.4. Function Layout,"Every function must be preceded by a function heading with a proper border of Verilog comment. The heading consists of the blocks described below. The blocks are separated by single blank lines and may contain blank lines within the block.
+= Title: One line containing the function name followed by a short description. The name in the title must be the same as the declared name.
+= Description: One or more paragraph(s) describing in detail the functionality implemented by the function.
+Immediately following the function heading should be the function declaration. The format of these blocks is shown in the following example:
+wire signal1; assign signal1 = ^signal2; reg [12:0] signal3; always @( posedge clk19 or negedge rst_ ) begin if (!rst_) begin signal3 <= 13’b0; end else begin if (|signal3) begin signal3[2] <= signal4; end : : end
+Title: end
+"
+Text,Title: 6.1.5. Code Layout,"This section describes the conventions for the graphic layout of Verilog code. The main goal behind the following recommendations is readability. Programmers are encouraged not to use multi-line cryptic expressions and statements.
+"
+Text,Title: 6.1.5.1. Vertical Spacing,"= Use blank lines to make code more readable and to group logically related sections of code together. Put one blank line before and after comment lines.
+= Do not use more than 2 blank lines for vertical separation.
+= Do not put more than one declaration on a line. Each variable and function argument must be declared on a separate line. Do not use comma-separated lists to declare multiple identifiers.
+= Do not put more than one statement on a line. The only exception is the for statement, where the initial, conditional, and loop statements may be written on a single line:
+for (reg = 0; reg < count; reg = req + 1) begin end
+The if statement which has a simple structure is also an exception, as shown below:
+Copyright © 2006. Arrive Technologies Inc. Internal Doc. Subject to Change
+Page 3
+Title: Coruivs
+Verilog Coding Standards ATVN
+if (reg > count) reg <= count;
+"
+Text,Title: 6.1.5.2. Horizontal Spacing,"= All lines should display in 80 columns, with tab size set to 4.
+= Put spaces around binary operators and after commas. Do not put spaces before and after open brackets and parenthesis.
+For example:
+modulename instantiatename (.signal1(signal1), .signal2(signal2));
+or-
+modulename instantiatename ( .signal1(signal1), .signal2(signal2)
+);
+• Continuation lines should line up with the part of the preceding line they continue:
+Title: reg_ex = (val1 | val2) &
+(val3 | val4); if ((reg == 8’hfa) && val1 == 2’b01)) begin end assign wire1 = (code == 2’b01) ? (true_expression_1) : (code == 2’b10) ? (true_expression_2) : (code == 2’b11) ? (true_expression_3) : (false_expression);
+"
+Text,Title: 6.1.5.3. Indentation,"= Indentation levels are every four characters (i.e. columns 1, 5, 9, 13, etc.).
+= All the layout headings described earlier and function declarations start in column one.
+= The else of a conditional has the same indentation as the corresponding if. Thus the form of the conditional is:
+if (condition) statement // in case of there is one statement only. else statement
+or-
+if (condition) begin statement(s) statement(s) end else begin statement(s) statement(s)
+Title: end
+The form of the conditional statement with an else if is:
+if (condition) begin statement(s) end else if (Condition) begin statement(s) end else begin statement(s) end
+Copyright © 2006. Arrive Technologies Inc. Internal Doc. Subject to Change
+Page 4
+Title: Coruivs
+Verilog Coding Standards ATVN
+= The format for the case statement is:
+case (signal3) pvalue1: begin end pvalue2, pvalue3, pvalue4: begin end default: begin end
+Title: endcase
+Title: = The format for the always and initial statements is:
+always @( posedge clk19 or negedge rst_ ) begin if (!rst_) begin end else begin if () begin end end end initial begin ...
+Title: end
+= The format for module instantiation is:
+core icore // in case of instantiating a user-defined module ( // or a long-list macro .signal1(signal1), .signal2(signal2), .signal3(signal3) );
+or-
+macro imacro (signal1, signal2, signal3); // it is acceptable if instantiating // a short-list macro
+= Comments must have the same indentation level as the section of code to which they refer.
+= Begin and End have the same indentation as the code they enclose.
+"
+Text,Title: 6.1.5.4. Comments,"= Comments within the code should precede the section of code to which they refer and have the same level of indentation. In most cases, they should be separated from the code by single blank line.
+1. Single-line comments should begin with the open-comment and end with the close-comment as shown below:
+or-
+assign code = pvalue; // This is the correct format for a single-line comment
+Copyright © 2006. Arrive Technologies Inc. Internal Doc. Subject to Change
+Page 5
+Title: Coruivs
+Verilog Coding Standards ATVN
+2. Multiline comments should begin and end with the open-comment and close-comment on separate lines. Some examples are shown below. The same format should be used for all multiline comments within a module.
+/*
+This is one of the correct formats for a multiline comment in a section of code. */ assign code = pvalue;
+It is also acceptable to line up each part of the multiline comment as shown.
+/*
+This is the correct format for a multiline comment a section of code. */ assign code = pvalue;
+It is even acceptable to do either of the following:
+/*
+It is okay to indent the comment From the open-comment and close-comment
+/
+/*
+* It is acceptable to line up all the stars
+as such
+/
+"
+Text,Title: 6.2. Naming Conventions,"= When creating names, remember that the code will be written once or twice, but read many times. Make names meaningful and readable, and avoid obscure abbreviations. In general, the following guidelines must be followed.
+= In general, names should be lowercase and be composed of words, abbreviations, and acronyms combined together with underscores (as rarely as possible). The composed word should form a close description of the object named. The name should be long enough for the reader to be able to determine what the object is for. Besides, the name should be shorter than 10 characters for good synthesis procedure.
+= Minimize the use of abbreviations.
+= Use abbreviations consistently.
+Title: For example:
+input prs; // it means processor write strobe input [4:0] framecnt; // it means frame count, do not use frame_count // because frame_count is so long. input t_run; // it means time run, do not use trun // because trun is easily misunderstanding .
+"
+Text,"Title: 6.2.1. Source, Testbench, and Testcase File Names","The prevailing theory on naming is that the name be meaningful. Commonly this means that each module name in a subsystem has a short prefix (two to five characters) which implies the subsystem. Only lower case letters should be used when naming source and header files. The file name should be exactly the same as the module name in the file.
+For example:
+tcmain.v - Telephony Controller main module
+tcprov.v - Telephony Controller provisioning module
+Copyright © 2006. Arrive Technologies Inc. Internal Doc. Subject to Change
+Page 6
+Verilog Coding Standards ATVN
+tctb.vt – Telephony Controller TestBench
+tctb.vc – Telephony Controller TestCase
+"
+Text,Title: 6.2.2. Reset Signal Name,"Names of reset signal must contain a string rst and must be active low.
+Title: For example:
+input rst_;
+"
+Text,Title: 6.2.3. Clock Tree Signal Name,"Names of clock tree signal must contain a string clk.
+Title: For example:
+sysclk;
+Title: input
+"
+Text,Title: 6.2.4. Constant Names,"Names of constant (defined via `define or parameter) must be uppercase.
+Title: For example:
+"
+Table,Title: 6.2.4. Constant Names,<table><tbody><tr><td>“define</td><td>CMAX</td><td>8'd5</td></tr><tr><td>parameter</td><td>CMIN</td><td>= 4’di;</td></tr></tbody></table>
+Text,Title: 6.2.4. Constant Names,"Title: parameter
+Title: CMIN = 4’d1;
+"
+Text,Title: 6.2.5. Input and Output Names,"= Names of input and output must have a comment, which indicates this signal changed at which clock domain, positive edge or negative edge, static or synchronous, active high or active low.
+= Default thought is that input and output signals are synchronized with a main input clock. If synchronized with other input clocks, comments must be described.
+= Input and output signals should be active high.
+Title: For example:
+input signal1name; // static output signal2name; // @-clk38 (changed at negative edge of clock 38)
+"
+Text,Title: 6.2.6. Wire and Register Names,"= Names of wire and register must have a comment, which indicates this signal changed at which clock domain, positive edge or negative edge, static or synchronous, active high or active low.
+= Wires and registers should be active high.
+Title: For example:
+wire signal1name; // static
+Title: signal2name; wire
+Title: signal2name;
+Title: signal3name_; // active low
+"
+Text,Title: 6.2.7. Active Low Variable Names,"Active low variable names must have an _ (underscore) suffix respectively. For example:
+wire activelow_;
+Copyright © 2006. Arrive Technologies Inc. Internal Doc. Subject to Change
+Page 7
+Title: Coruivs
+Verilog Coding Standards ATVN
+"
+Text,Title: 6.3. Complex Conditionals,"= Complex conditional statements can be cryptic and hard to comprehend but inevitable sometimes. Proper indentation can improve this difficult situation quite a bit as shown below.
+Title: - before -
+if ((((signal1 == 2’b10) && (signal2 != c_value1)) || (signal3 == 2’b10)) && (signal4 == p_value2)) begin
+...
+Title: end
+Title: - after -
+if(((signal1 == 2’b10) && (signal2 != c_value1)) ||(signal3 == 2’b10) ) &&(signal4 == p_value2) ) begin ... end
+or -
+if ((((signal1 == 2’b10) && (signal2 != c_value1)) || (signal3 == 2’b10)) && (signal4 == p_value2)) begin ... end
+Better yet, the complexity of the above conditional should be avoided whenever possible!
+= The conditional statement is allowed as long as it does not extend beyond so many lines.
+assign wire1 = (code == 2’b01) ? (true_expression) : (false_expression); // in case of multiple line conditional statement assign wire1 = (code == 2’b01) ? (true_expression_1) : (code == 2’b10) ? (true_expression_2) : (code == 2’b11) ? (true_expression_3) : (false_expression);
+"
+Text,Title: 6.4. RTL Mandatory,"Because of synthesis reasons, there are obligatory avoidances as follows in RTL coding.
+= All comment in all Verilog files has to be in English.
+= Do not use the include statement in RTL source code. The include statement is replaced by forcing a simulator to search included verilog files.
+= Do not use the display statement in RTL source code.
+= Do not assign one Register in two different always blocks.
+= Do not duplicate a conditional expression more than one place. For example:
+assign cond_true = request1 | request2 | request3;
+Copyright © 2006. Arrive Technologies Inc. Internal Doc. Subject to Change
+Page 8
+Verilog Coding Standards ATVN
+Title: end
+end
+Title: end
+"
+Text,Title: 6.5. Project Hierarchy,"The project hierarchy is shown as follows. The test benches can be reused in convenience. Besides, the test cases are simpler that will shorten simulation time so much.
+Module2 Module3 Module4
+Title: Module1
+The project directory hierarchy consists of:
+Title: ProjectName
++-- v (for rtl source codes) +-- lib (for simulation libraries) +-- vc (for testcases) +-- vt (for testbenches) +-- rsim (for simulation scripts and simulation shortcuts)
+Title: Other Important Considerations
+Empty section.
+"
+Text,Title: 7. About This Document,"The rules and recommendations presented in this document are by no means exhaustive, but should provide a solid foundation to continue development in Verilog. Suggestions for improvements and additions are welcome.
+Copyright © 2006. Arrive Technologies Inc. Internal Doc. Subject to Change
+Page 9
+"

@@ -41,86 +41,15 @@ export default function Home() {
 
 
   const chatList = [
-    { imgSrc: '/agent.avif', name: 'Agent', lastMsg: 'Last message preview', route: '/' },
+    { imgSrc: '/chatbot.webp', name: 'Chatbot', lastMsg: 'Last message preview', route: '/chat' },
+    { imgSrc: '/agent.avif', name: 'Agent', lastMsg: 'Last message preview', route: '/agent' },
     { imgSrc: '/vlm.jpg', name: 'VLMs', lastMsg: 'Last message preview', route: '/vlm' },
   ]
 
-  useEffect(() => {
-    if (bottomRef.current) {
-      bottomRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [messages]);
-
-  useEffect(() => {
-    // If the messages array is empty, create a sessionID
-    if (messages.length === 0 && !sessionID) {
-      const generatedSessionID = uuidv4(); // Generate a random UUID
-      setSessionID(generatedSessionID);
-    }
-  }, [messages, sessionID]);
 
   const handleInputChange = (e) => {
     setInput(e.target.value);
     setInputColor('black');
-  };
-
-  const sendMessage = async () => {
-    if (!input.trim()) return; // If input is empty, do nothing.
-    const userMessage = { role: "user", content: input };
-    setMessages((prev) => [...prev, userMessage]); // Add user message to chat
-    setInput(""); // Clear the input
-    setLoading(true); // Start loading indicator
-
-    try {
-      const response = await fetch("http://localhost:8000/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content: input, user: "testuser", sessionID: sessionID }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch response from the server');
-      }
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder("utf-8");
-
-      let botMessage = { role: "assistant", content: "" }; // Initial empty AI message
-      setMessages((prev) => [...prev, botMessage]); // Add empty message to array
-
-      const readStream = async () => {
-        const { value, done } = await reader.read();
-        if (done) {
-          setLoading(false); // Stop loading once the stream is finished
-          return;
-        }
-
-        let token = decoder.decode(value, { stream: true }); // Decode the chunk of data
-
-        setMessages((prev) => {
-          let updatedMessages = [...prev];
-          updatedMessages[updatedMessages.length - 1] = {
-            role: "assistant",
-            content: updatedMessages[updatedMessages.length - 1].content + token, // Append token
-          };
-          return updatedMessages;
-        });
-
-        // Recursively call readStream to continue reading
-        if (!done) {
-          readStream();
-        }
-      };
-
-      // Start reading the stream
-      readStream();
-
-    } catch (error) {
-      console.error("Error occurred while sending the message:", error);
-      setLoading(false); // Ensure loading stops if there is an error
-      // Optionally show an error message to the user
-      setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, something went wrong!" }]);
-    }
   };
 
 
@@ -204,56 +133,12 @@ export default function Home() {
               <div className="flex flex-col flex-1 overflow-y-auto min-h-0 scrollbar-custom pb-12">
 
                 {/* <div className="border p-4 h-80 overflow-y-auto"> */}
-                {messages.map((msg, index) => (
-                  <div key={index}>
-                    {msg.role == "user" ? <div className="flex justify-end mb-2 mt-3 mr-3">
-                      <div
-                        className="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"
-                      >
-                        {msg.content}
-                      </div>
-                      <img
-                        src="/avt.jpg"
-                        className="object-cover h-12 w-12 rounded-full"
-                        alt=""
-                      />
-                    </div> : <div className="flex ml-3 mb-4 w-full sm:w-2/3">
-                      <img
-                        src="/robo-avt.png"
-                        className="object-cover h-12 w-12 rounded-full"
-                        alt=""
-                      />
-                      <div
-                        className="ml-2 py-3 px-4 bg-gray-200 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-black"
-                      >
-                        {/* {msg.content} */}
-                        <div dangerouslySetInnerHTML={{ __html: marked(msg.content) }} />
-                      </div>
-                    </div>}
-                  </div>
-                ))}
-                <div ref={bottomRef} className="h-6" />
-              </div>
-              <div className="flex items-center gap-3 mb-4 mr-4 ml-4">
+               
+ 
 
-
-                <input
-                  type="text"
-                  value={input}
-                  onChange={handleInputChange}
-                  onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-                  className="flex-1 border border-gray-300 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Type your message..."
-                  style={{ color: inputColor }}
-                />
-                <button
-                  onClick={sendMessage}
-                  style={{ backgroundColor: "#09195d" }}
-                  className="hover:bg-blue-700 text-white px-5 py-2 rounded-full transition"
-                >
-                  Send
-                </button>
-
+                <iframe src="https://seltecio-my.sharepoint.com/personal/song_tran_veronlabs_com/_layouts/15/Doc.aspx?sourcedoc={6092a95e-066a-49f3-864e-b200ed30a2bf}&amp;action=embedview&amp;wdAr=1.7777777777777777" 
+                width="100%" height="100%" 
+                frameborder="0">This is an embedded <a target="_blank" href="https://office.com">Microsoft Office</a> presentation, powered by <a target="_blank" href="https://office.com/webapps">Office</a>.</iframe>
 
 
               </div>
