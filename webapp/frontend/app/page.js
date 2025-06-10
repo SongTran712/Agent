@@ -12,6 +12,8 @@ import { FaSearch } from 'react-icons/fa';
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useRouter } from 'next/navigation'
 import { useRef } from 'react';
+import Link from 'next/link';
+
 
 export default function Home() {
   const router = useRouter()
@@ -59,7 +61,15 @@ export default function Home() {
       <header style={{ backgroundColor: "#09195d", position: "fixed", top: 0, width: "100%", height: "80px" }} className="text-white py-4 px-8 shadow-md relative flex items-center">
         {/* Logo */}
         <div className="flex items-center gap-4">
-          <Image src="/veron-logo-rm.png" alt="Veron Logo" width={160} height={40} />
+          <Link href="/">
+            <Image
+              src="/veron-logo-rm.png"
+              alt="Veron Logo"
+              width={160}
+              height={40}
+              className="cursor-pointer"
+            />
+          </Link>
         </div>
 
         {/* Centered Title */}
@@ -130,15 +140,13 @@ export default function Home() {
                 backgroundImage: "url('/background.jpg')"
               }}
             >
-              <div className="flex flex-col flex-1 overflow-y-auto min-h-0 scrollbar-custom pb-12">
+              <div className="flex flex-col flex-1">
 
                 {/* <div className="border p-4 h-80 overflow-y-auto"> */}
                
  
 
-                <iframe src="https://seltecio-my.sharepoint.com/personal/song_tran_veronlabs_com/_layouts/15/Doc.aspx?sourcedoc={6092a95e-066a-49f3-864e-b200ed30a2bf}&amp;action=embedview&amp;wdAr=1.7777777777777777" 
-                width="100%" height="100%" 
-                frameborder="0">This is an embedded <a target="_blank" href="https://office.com">Microsoft Office</a> presentation, powered by <a target="_blank" href="https://office.com/webapps">Office</a>.</iframe>
+                <iframe src="https://1drv.ms/p/c/a81e6030de16bd90/IQT5vJcIWtmhSZqVxQuW1eo3AaURIEGjX2YRJlePP2d7QJ4" width="1725" height="1000" scrolling="no"></iframe>
 
 
               </div>

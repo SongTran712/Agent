@@ -7,6 +7,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { FaSearch, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useRouter } from 'next/navigation'
 import DOMPurify from 'dompurify';
+import Link from 'next/link';
+
 
 export default function Home() {
   const router = useRouter();
@@ -148,7 +150,15 @@ export default function Home() {
     <div className="flex flex-col h-screen">
       <header style={{ backgroundColor: "#09195d", position: "fixed", top: 0, width: "100%", height: "80px" }} className="text-white py-4 px-8 shadow-md relative flex items-center">
         <div className="flex items-center gap-4">
-          <Image src="/veron-logo-rm.png" alt="Veron Logo" width={160} height={40} />
+          <Link href="/">
+            <Image
+              src="/veron-logo-rm.png"
+              alt="Veron Logo"
+              width={160}
+              height={40}
+              className="cursor-pointer"
+            />
+          </Link>
         </div>
         <div className="absolute left-1/2 transform -translate-x-1/2 text-3xl font-bold tracking-wide flex items-center gap-4">
           <h1>VERON Chatbot</h1>

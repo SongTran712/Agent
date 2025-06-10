@@ -12,6 +12,8 @@ import { FaSearch } from 'react-icons/fa';
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { useRouter } from 'next/navigation'
 import { useRef } from 'react';
+import Link from 'next/link';
+
 
 export default function Home() {
   const router = useRouter()
@@ -131,7 +133,15 @@ export default function Home() {
       <header style={{ backgroundColor: "#09195d", position: "fixed", top: 0, width: "100%", height: "80px" }} className="text-white py-4 px-8 shadow-md relative flex items-center">
         {/* Logo */}
         <div className="flex items-center gap-4">
-          <Image src="/veron-logo-rm.png" alt="Veron Logo" width={160} height={40} />
+          <Link href="/">
+            <Image
+              src="/veron-logo-rm.png"
+              alt="Veron Logo"
+              width={160}
+              height={40}
+              className="cursor-pointer"
+            />
+          </Link>
         </div>
 
         {/* Centered Title */}
