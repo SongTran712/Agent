@@ -73,7 +73,7 @@ export default function Home() {
     setLoading(true); // Start loading indicator
 
     try {
-      const response = await fetch("http://localhost:8000/api/chat", {
+      const response = await fetch("https://93e8-2405-4803-c93a-8540-a5fa-c0c4-b91e-481.ngrok-free.app/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content: input, user: "testuser", sessionID: sessionID }),
@@ -254,16 +254,10 @@ export default function Home() {
                 >
                   Send
                 </button>
-
-
-
               </div>
             </div>
-
-
           </div>
         </div>
-
       </main>
     </div>
   );

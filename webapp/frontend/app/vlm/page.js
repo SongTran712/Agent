@@ -51,7 +51,7 @@ export default function Home() {
 
     try {
       setLoadMessage(true)
-      const response = await fetch("http://192.168.30.172:8000/api/image", {
+      const response = await fetch("https://93e8-2405-4803-c93a-8540-a5fa-c0c4-b91e-481.ngrok-free.app/api/image", {
         method: "POST",
         body: formData,
       });
@@ -233,8 +233,6 @@ export default function Home() {
                   </p>
                 </div>
               </div>
-
-
             </div>
           </div>
         </div>
